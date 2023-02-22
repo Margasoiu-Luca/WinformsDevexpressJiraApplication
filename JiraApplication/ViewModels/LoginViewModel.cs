@@ -34,12 +34,12 @@ namespace JiraApplication.ViewModels
             get { return this.GetService<INavigationService>(); }
         }
 
-        public virtual String Username
+        public virtual string Username
         {
             get;
             set;
         }
-        public virtual String Password {
+        public virtual string Password {
             get;
             set;
         }
@@ -57,7 +57,6 @@ namespace JiraApplication.ViewModels
                     MessageBoxService.ShowMessage("Incorrect Login");
                 }
                 else
-                MessageBoxService.ShowMessage("Good Login");
                 NavigateToMainPage();
             }
             catch

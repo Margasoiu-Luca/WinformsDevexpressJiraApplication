@@ -29,6 +29,8 @@ namespace JiraApplication.Views
             fluent.SetBinding(PasswordSearchControl, p => p.EditValue, x => x.Password);
             fluent.SetBinding(usernameSearchControl, p => p.EditValue, x => x.Username);
             fluent.BindCommand(btnNew, x => x.Login);
+            fluent.WithKey(usernameSearchControl, Keys.Enter).KeyToCommand(x => x.Login);
+            fluent.WithKey(PasswordSearchControl, Keys.Enter).KeyToCommand(x => x.Login);
 
             //fluent.WithEvent(btnNew, "Click").EventToCommand(x => x.DoSomethingAsync());
 
