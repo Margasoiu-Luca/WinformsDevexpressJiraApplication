@@ -146,6 +146,7 @@ namespace JiraApplication.Views
             this.mainMenu.OptionsBar.MultiLine = true;
             this.mainMenu.OptionsBar.UseWholeRow = true;
             this.mainMenu.Text = "Main menu";
+            this.mainMenu.Visible= false;
             // 
             // barSubItem1
             // 
@@ -398,6 +399,7 @@ namespace JiraApplication.Views
             this.btnClose.ShowFocusRectangle = DevExpress.Utils.DefaultBoolean.False;
             this.btnClose.Size = new System.Drawing.Size(29, 41);
             this.btnClose.TabIndex = 10;
+            this.btnClose.Visible = false;
             // 
             // barSubItem7
             // 

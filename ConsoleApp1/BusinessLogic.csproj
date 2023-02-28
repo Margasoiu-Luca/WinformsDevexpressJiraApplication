@@ -77,20 +77,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\Helpers.cs" />
     <Compile Include="Interfaces\IDBClientCRUDNotUsed.cs" />
     <Compile Include="Interfaces\IDBOperations.cs" />
     <Compile Include="Interfaces\IModelForDB.cs" />
+    <Compile Include="Models\DTO\EventDTO.cs" />
     <Compile Include="Models\DTO\UserDTO.cs" />
+    <Compile Include="Models\Models\Event.cs" />
     <Compile Include="Models\Models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\EventService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewModels\AppNavViewModel.cs" />
     <Compile Include="ViewModels\LandingPageViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainBlankViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\TasksViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

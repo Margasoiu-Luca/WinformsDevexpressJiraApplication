@@ -43,7 +43,6 @@ namespace BusinessLogic.ViewModels
         }
         public async Task OnShown()
         {
-            IsLoginpage = true;
             // Wait some time (for demo purposes)
             await Task.Delay(1000);
             // Show AppLogo screen

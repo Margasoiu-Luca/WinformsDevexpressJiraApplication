@@ -11,7 +11,7 @@ namespace BusinessLogic.ViewModels
     [POCOViewModel]
     public class LoginViewModel
     {
-        private readonly UserService userService = new UserService("https://localhost:44394/");
+        private readonly UserService userService = new UserService("https://localhost:44394/api/users/");
 
         public LoginViewModel()
         {
