@@ -1,84 +1,89 @@
-﻿using DevExpress.Data.Async;
-using DevExpress.Data.Helpers;
-using DevExpress.Mvvm;
-using DevExpress.Mvvm.DataAnnotations;
-using DevExpress.Mvvm.POCO;
-using DevExpress.Utils.MVVM.Services;
-using JiraApplication.Models;
-using JiraApplication.Services;
-using Microsoft.EntityFrameworkCore;
-using Nest;
-using System;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Data.Entity;
-using static DevExpress.XtraEditors.Mask.MaskSettings;
-using JiraApplication.Interfaces;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿//using DevExpress.Mvvm;
+//using DevExpress.Mvvm.DataAnnotations;
+//using DevExpress.Mvvm.POCO;
+//using System.Threading.Tasks;
 
-namespace JiraApplication.ViewModels
-{
-    [POCOViewModel]
-    public class LoginViewModel 
-    {
-        private readonly DB_LMEntities1 dbContext = new DB_LMEntities1();
-        private readonly JuserService userService = new JuserService();
+//namespace BusinessLogic.ViewModels
+//{
+//    [POCOViewModel]
+//    public class LoginViewModel
+//    {
+//        private readonly JuserService userService = new JuserService();
 
-        protected IMessageBoxService MessageBoxService
-        {
-            get { return this.GetService<IMessageBoxService>(); }
-        }
-        protected INavigationService NavigationService
-        {
-            get { return this.GetService<INavigationService>(); }
-        }
+//        public LoginViewModel()
+//        {
+//            _user = new JUser { username="a",password="a"};
+//        }
 
-        public virtual string Username
-        {
-            get;
-            set;
-        }
-        public virtual string Password {
-            get;
-            set;
-        }
-        public async Task Login()
-        {
-            try
-            {
 
-                var y = await userService.Login(Username, Password);
-                var z = y as JUser;
-                //var temp = (userService.GetOne(1));
-                //var result = await temp;
-                if( y is null){
+//        protected IMessageBoxService MessageBoxService
+//        {
+//            get { return this.GetService<IMessageBoxService>(); }
+//        }
+//        protected INavigationService NavigationService
+//        {
+//            get { return this.GetService<INavigationService>(); }
+//        }
 
-                    MessageBoxService.ShowMessage("Incorrect Login");
-                }
-                else
-                NavigateToMainPage();
-            }
-            catch
-            {
-                MessageBoxService.ShowMessage("Incorrect Login");
+//        private JUser _user{get;set;}
 
-            }
-        }
-        public void NavigateToMainPage()
-        {
-            var document = NavigationService.Current as IDocument;
-            NavigationService.Navigate("MainBlankView", null, this, true);
-            this.Password = "";
-            this.Username = "";
-        }
-        public void Close()
-        {
-            // TODO: we will uncomment these item in complete application
-            // var document = NavigationService.Current as IDocument;
-            // NavigationService.GoBack();
-            // if(document != null)
-            //    document.Close(true);
-        }
-    }
-}
+
+//        public virtual string Username
+//        {
+//            get
+//            {
+//                return _user.username;
+//            }
+//            set
+//            {
+//                if (_user.username != value)
+//                {
+//                    _user.username = value;
+//                    this.RaisePropertyChanged(x => x.Username);
+//                }
+//            }
+//        }
+//        public virtual string Password {
+//            get
+//            {
+//                return _user.password;
+//            }
+//            set
+//            {
+//                if (_user.password != value)
+//                {
+//                    _user.password = value;
+//                    this.RaisePropertyChanged(x => x.Password);
+//                }
+//            }
+//        }
+//        public async Task Login()
+//        {
+//            try
+//            {
+
+//                var y = await userService.Login(Username, Password);
+//                var z = y as JUser;
+//                if( y is null){
+
+//                    MessageBoxService.ShowMessage("Incorrect Login");
+//                }
+//                else
+//                NavigateToMainPage();
+//            }
+//            catch
+//            {
+//                MessageBoxService.ShowMessage("Incorrect Login");
+
+//            }
+//        }
+//        public void NavigateToMainPage()
+//        {
+//            this.GetParentViewModel<AppNavViewModel>().IsLoginpage = true;
+//            var document = NavigationService.Current as IDocument;
+//            NavigationService.Navigate("MainBlankView", null, this, true);
+//            this.Password = "";
+//            this.Username = "";
+//        }
+//    }
+//}

@@ -1,0 +1,757 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Jira_DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="JComment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="text" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="eventId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="parentId" Type="int" />
+        </EntityType>
+        <EntityType Name="JEvent">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="200" />
+          <Property Name="openBy" Type="datetime" />
+          <Property Name="dueDate" Type="datetime" Nullable="false" />
+          <Property Name="userId" Type="int" />
+          <Property Name="parentEvent" Type="int" />
+          <Property Name="eventType" Type="int" Nullable="false" />
+          <Property Name="eventStatus" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JEventProjects">
+          <Key>
+            <PropertyRef Name="eventId" />
+            <PropertyRef Name="projectId" />
+          </Key>
+          <Property Name="eventId" Type="int" Nullable="false" />
+          <Property Name="projectId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JEventStatus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="eventStatus" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JEventType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="eventType" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JProject">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="200" />
+          <Property Name="teamId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JTeam">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="400" />
+        </EntityType>
+        <EntityType Name="JTeamUsers">
+          <Key>
+            <PropertyRef Name="userId" />
+            <PropertyRef Name="teamId" />
+          </Key>
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="teamId" Type="int" Nullable="false" />
+          <Property Name="isLead" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JUser">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="userType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JUserType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userType" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="addTeam" Type="bit" Nullable="false" />
+          <Property Name="addSprint" Type="bit" Nullable="false" />
+          <Property Name="addUser" Type="bit" Nullable="false" />
+          <Property Name="addEvent" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EventIdComment">
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="1" />
+          <End Role="JComment" Type="Self.JComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JEvent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JComment">
+              <PropertyRef Name="eventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventIdEventProjects">
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="1" />
+          <End Role="JEventProjects" Type="Self.JEventProjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JEvent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JEventProjects">
+              <PropertyRef Name="eventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventStatus">
+          <End Role="JEventStatus" Type="Self.JEventStatus" Multiplicity="1" />
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JEventStatus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JEvent">
+              <PropertyRef Name="eventStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventType">
+          <End Role="JEventType" Type="Self.JEventType" Multiplicity="1" />
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JEventType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JEvent">
+              <PropertyRef Name="eventType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParentEvent">
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="0..1" />
+          <End Role="JEvent1" Type="Self.JEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JEvent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JEvent1">
+              <PropertyRef Name="parentEvent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParentIdComment">
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="0..1" />
+          <End Role="JComment" Type="Self.JComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JEvent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JComment">
+              <PropertyRef Name="parentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProjectIdEventProjects">
+          <End Role="JProject" Type="Self.JProject" Multiplicity="1" />
+          <End Role="JEventProjects" Type="Self.JEventProjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JProject">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JEventProjects">
+              <PropertyRef Name="projectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeamIdProject">
+          <End Role="JTeam" Type="Self.JTeam" Multiplicity="1" />
+          <End Role="JProject" Type="Self.JProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JTeam">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JProject">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeamIdTeamUsers">
+          <End Role="JTeam" Type="Self.JTeam" Multiplicity="1" />
+          <End Role="JTeamUsers" Type="Self.JTeamUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JTeam">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JTeamUsers">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserIdComment">
+          <End Role="JUser" Type="Self.JUser" Multiplicity="1" />
+          <End Role="JComment" Type="Self.JComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JComment">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserIdEvent">
+          <End Role="JUser" Type="Self.JUser" Multiplicity="0..1" />
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JEvent">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserIdTeamUsers">
+          <End Role="JUser" Type="Self.JUser" Multiplicity="1" />
+          <End Role="JTeamUsers" Type="Self.JTeamUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JTeamUsers">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="User_type">
+          <End Role="JUserType" Type="Self.JUserType" Multiplicity="1" />
+          <End Role="JUser" Type="Self.JUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JUserType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JUser">
+              <PropertyRef Name="userType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Jira_DatabaseModelStoreContainer">
+          <EntitySet Name="JComment" EntityType="Self.JComment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JEvent" EntityType="Self.JEvent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JEventProjects" EntityType="Self.JEventProjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JEventStatus" EntityType="Self.JEventStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JEventType" EntityType="Self.JEventType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JProject" EntityType="Self.JProject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JTeam" EntityType="Self.JTeam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JTeamUsers" EntityType="Self.JTeamUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JUser" EntityType="Self.JUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JUserType" EntityType="Self.JUserType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EventIdComment" Association="Self.FK_EventIdComment">
+            <End Role="JEvent" EntitySet="JEvent" />
+            <End Role="JComment" EntitySet="JComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventIdEventProjects" Association="Self.FK_EventIdEventProjects">
+            <End Role="JEvent" EntitySet="JEvent" />
+            <End Role="JEventProjects" EntitySet="JEventProjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventStatus" Association="Self.FK_EventStatus">
+            <End Role="JEventStatus" EntitySet="JEventStatus" />
+            <End Role="JEvent" EntitySet="JEvent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventType" Association="Self.FK_EventType">
+            <End Role="JEventType" EntitySet="JEventType" />
+            <End Role="JEvent" EntitySet="JEvent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParentEvent" Association="Self.FK_ParentEvent">
+            <End Role="JEvent" EntitySet="JEvent" />
+            <End Role="JEvent1" EntitySet="JEvent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParentIdComment" Association="Self.FK_ParentIdComment">
+            <End Role="JEvent" EntitySet="JEvent" />
+            <End Role="JComment" EntitySet="JComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProjectIdEventProjects" Association="Self.FK_ProjectIdEventProjects">
+            <End Role="JProject" EntitySet="JProject" />
+            <End Role="JEventProjects" EntitySet="JEventProjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeamIdProject" Association="Self.FK_TeamIdProject">
+            <End Role="JTeam" EntitySet="JTeam" />
+            <End Role="JProject" EntitySet="JProject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeamIdTeamUsers" Association="Self.FK_TeamIdTeamUsers">
+            <End Role="JTeam" EntitySet="JTeam" />
+            <End Role="JTeamUsers" EntitySet="JTeamUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserIdComment" Association="Self.FK_UserIdComment">
+            <End Role="JUser" EntitySet="JUser" />
+            <End Role="JComment" EntitySet="JComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserIdEvent" Association="Self.FK_UserIdEvent">
+            <End Role="JUser" EntitySet="JUser" />
+            <End Role="JEvent" EntitySet="JEvent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserIdTeamUsers" Association="Self.FK_UserIdTeamUsers">
+            <End Role="JUser" EntitySet="JUser" />
+            <End Role="JTeamUsers" EntitySet="JTeamUsers" />
+          </AssociationSet>
+          <AssociationSet Name="User_type" Association="Self.User_type">
+            <End Role="JUserType" EntitySet="JUserType" />
+            <End Role="JUser" EntitySet="JUser" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Jira_DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="JComment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="text" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="eventId" Type="Int32" Nullable="false" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="parentId" Type="Int32" />
+          <NavigationProperty Name="JEvent" Relationship="Self.FK_EventIdComment" FromRole="JComment" ToRole="JEvent" />
+          <NavigationProperty Name="JEvent1" Relationship="Self.FK_ParentIdComment" FromRole="JComment" ToRole="JEvent" />
+          <NavigationProperty Name="JUser" Relationship="Self.FK_UserIdComment" FromRole="JComment" ToRole="JUser" />
+        </EntityType>
+        <EntityType Name="JEvent">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="openBy" Type="DateTime" Precision="3" />
+          <Property Name="dueDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="parentEvent" Type="Int32" />
+          <Property Name="eventType" Type="Int32" Nullable="false" />
+          <Property Name="eventStatus" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JComments" Relationship="Self.FK_EventIdComment" FromRole="JEvent" ToRole="JComment" />
+          <NavigationProperty Name="JComments1" Relationship="Self.FK_ParentIdComment" FromRole="JEvent" ToRole="JComment" />
+          <NavigationProperty Name="JEventStatu" Relationship="Self.FK_EventStatus" FromRole="JEvent" ToRole="JEventStatus" />
+          <NavigationProperty Name="JEventType" Relationship="Self.FK_EventType" FromRole="JEvent" ToRole="JEventType" />
+          <NavigationProperty Name="JEvent1" Relationship="Self.FK_ParentEvent" FromRole="JEvent" ToRole="JEvent1" />
+          <NavigationProperty Name="JEvent2" Relationship="Self.FK_ParentEvent" FromRole="JEvent1" ToRole="JEvent" />
+          <NavigationProperty Name="JUser" Relationship="Self.FK_UserIdEvent" FromRole="JEvent" ToRole="JUser" />
+          <NavigationProperty Name="JProjects" Relationship="Self.JEventProjects" FromRole="JEvent" ToRole="JProject" />
+        </EntityType>
+        <EntityType Name="JEventStatu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="eventStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="JEvents" Relationship="Self.FK_EventStatus" FromRole="JEventStatus" ToRole="JEvent" />
+        </EntityType>
+        <EntityType Name="JEventType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="eventType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="JEvents" Relationship="Self.FK_EventType" FromRole="JEventType" ToRole="JEvent" />
+        </EntityType>
+        <EntityType Name="JProject">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="teamId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JTeam" Relationship="Self.FK_TeamIdProject" FromRole="JProject" ToRole="JTeam" />
+          <NavigationProperty Name="JEvents" Relationship="Self.JEventProjects" FromRole="JProject" ToRole="JEvent" />
+        </EntityType>
+        <EntityType Name="JTeam">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="JProjects" Relationship="Self.FK_TeamIdProject" FromRole="JTeam" ToRole="JProject" />
+          <NavigationProperty Name="JTeamUsers" Relationship="Self.FK_TeamIdTeamUsers" FromRole="JTeam" ToRole="JTeamUsers" />
+        </EntityType>
+        <EntityType Name="JTeamUser">
+          <Key>
+            <PropertyRef Name="userId" />
+            <PropertyRef Name="teamId" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="teamId" Type="Int32" Nullable="false" />
+          <Property Name="isLead" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="JTeam" Relationship="Self.FK_TeamIdTeamUsers" FromRole="JTeamUsers" ToRole="JTeam" />
+          <NavigationProperty Name="JUser" Relationship="Self.FK_UserIdTeamUsers" FromRole="JTeamUsers" ToRole="JUser" />
+        </EntityType>
+        <EntityType Name="JUser">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="userType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JComments" Relationship="Self.FK_UserIdComment" FromRole="JUser" ToRole="JComment" />
+          <NavigationProperty Name="JEvents" Relationship="Self.FK_UserIdEvent" FromRole="JUser" ToRole="JEvent" />
+          <NavigationProperty Name="JTeamUsers" Relationship="Self.FK_UserIdTeamUsers" FromRole="JUser" ToRole="JTeamUsers" />
+          <NavigationProperty Name="JUserType" Relationship="Self.User_type" FromRole="JUser" ToRole="JUserType" />
+        </EntityType>
+        <EntityType Name="JUserType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="addTeam" Type="Boolean" Nullable="false" />
+          <Property Name="addSprint" Type="Boolean" Nullable="false" />
+          <Property Name="addUser" Type="Boolean" Nullable="false" />
+          <Property Name="addEvent" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="JUsers" Relationship="Self.User_type" FromRole="JUserType" ToRole="JUser" />
+        </EntityType>
+        <Association Name="FK_EventIdComment">
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="1" />
+          <End Role="JComment" Type="Self.JComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JEvent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JComment">
+              <PropertyRef Name="eventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParentIdComment">
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="0..1" />
+          <End Role="JComment" Type="Self.JComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JEvent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JComment">
+              <PropertyRef Name="parentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserIdComment">
+          <End Role="JUser" Type="Self.JUser" Multiplicity="1" />
+          <End Role="JComment" Type="Self.JComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JComment">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventStatus">
+          <End Role="JEventStatus" Type="Self.JEventStatu" Multiplicity="1" />
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JEventStatus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JEvent">
+              <PropertyRef Name="eventStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventType">
+          <End Role="JEventType" Type="Self.JEventType" Multiplicity="1" />
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JEventType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JEvent">
+              <PropertyRef Name="eventType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParentEvent">
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="0..1" />
+          <End Role="JEvent1" Type="Self.JEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JEvent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JEvent1">
+              <PropertyRef Name="parentEvent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserIdEvent">
+          <End Role="JUser" Type="Self.JUser" Multiplicity="0..1" />
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JEvent">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeamIdProject">
+          <End Role="JTeam" Type="Self.JTeam" Multiplicity="1" />
+          <End Role="JProject" Type="Self.JProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JTeam">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JProject">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeamIdTeamUsers">
+          <End Role="JTeam" Type="Self.JTeam" Multiplicity="1" />
+          <End Role="JTeamUsers" Type="Self.JTeamUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JTeam">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JTeamUsers">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserIdTeamUsers">
+          <End Role="JUser" Type="Self.JUser" Multiplicity="1" />
+          <End Role="JTeamUsers" Type="Self.JTeamUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JUser">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JTeamUsers">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="User_type">
+          <End Role="JUserType" Type="Self.JUserType" Multiplicity="1" />
+          <End Role="JUser" Type="Self.JUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JUserType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="JUser">
+              <PropertyRef Name="userType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="JEventProjects">
+          <End Role="JEvent" Type="Self.JEvent" Multiplicity="*" />
+          <End Role="JProject" Type="Self.JProject" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Jira_DatabaseEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="JComments" EntityType="Self.JComment" />
+          <EntitySet Name="JEvents" EntityType="Self.JEvent" />
+          <EntitySet Name="JEventStatus" EntityType="Self.JEventStatu" />
+          <EntitySet Name="JEventTypes" EntityType="Self.JEventType" />
+          <EntitySet Name="JProjects" EntityType="Self.JProject" />
+          <EntitySet Name="JTeams" EntityType="Self.JTeam" />
+          <EntitySet Name="JTeamUsers" EntityType="Self.JTeamUser" />
+          <EntitySet Name="JUsers" EntityType="Self.JUser" />
+          <EntitySet Name="JUserTypes" EntityType="Self.JUserType" />
+          <AssociationSet Name="FK_EventIdComment" Association="Self.FK_EventIdComment">
+            <End Role="JEvent" EntitySet="JEvents" />
+            <End Role="JComment" EntitySet="JComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParentIdComment" Association="Self.FK_ParentIdComment">
+            <End Role="JEvent" EntitySet="JEvents" />
+            <End Role="JComment" EntitySet="JComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserIdComment" Association="Self.FK_UserIdComment">
+            <End Role="JUser" EntitySet="JUsers" />
+            <End Role="JComment" EntitySet="JComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventStatus" Association="Self.FK_EventStatus">
+            <End Role="JEventStatus" EntitySet="JEventStatus" />
+            <End Role="JEvent" EntitySet="JEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventType" Association="Self.FK_EventType">
+            <End Role="JEventType" EntitySet="JEventTypes" />
+            <End Role="JEvent" EntitySet="JEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParentEvent" Association="Self.FK_ParentEvent">
+            <End Role="JEvent" EntitySet="JEvents" />
+            <End Role="JEvent1" EntitySet="JEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserIdEvent" Association="Self.FK_UserIdEvent">
+            <End Role="JUser" EntitySet="JUsers" />
+            <End Role="JEvent" EntitySet="JEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeamIdProject" Association="Self.FK_TeamIdProject">
+            <End Role="JTeam" EntitySet="JTeams" />
+            <End Role="JProject" EntitySet="JProjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeamIdTeamUsers" Association="Self.FK_TeamIdTeamUsers">
+            <End Role="JTeam" EntitySet="JTeams" />
+            <End Role="JTeamUsers" EntitySet="JTeamUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserIdTeamUsers" Association="Self.FK_UserIdTeamUsers">
+            <End Role="JUser" EntitySet="JUsers" />
+            <End Role="JTeamUsers" EntitySet="JTeamUsers" />
+          </AssociationSet>
+          <AssociationSet Name="User_type" Association="Self.User_type">
+            <End Role="JUserType" EntitySet="JUserTypes" />
+            <End Role="JUser" EntitySet="JUsers" />
+          </AssociationSet>
+          <AssociationSet Name="JEventProjects" Association="Self.JEventProjects">
+            <End Role="JEvent" EntitySet="JEvents" />
+            <End Role="JProject" EntitySet="JProjects" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Jira_DatabaseModelStoreContainer" CdmEntityContainer="Jira_DatabaseEntities1">
+          <EntitySetMapping Name="JComments">
+            <EntityTypeMapping TypeName="Jira_DatabaseModel.JComment">
+              <MappingFragment StoreEntitySet="JComment">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="eventId" ColumnName="eventId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="parentId" ColumnName="parentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JEvents">
+            <EntityTypeMapping TypeName="Jira_DatabaseModel.JEvent">
+              <MappingFragment StoreEntitySet="JEvent">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="openBy" ColumnName="openBy" />
+                <ScalarProperty Name="dueDate" ColumnName="dueDate" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="parentEvent" ColumnName="parentEvent" />
+                <ScalarProperty Name="eventType" ColumnName="eventType" />
+                <ScalarProperty Name="eventStatus" ColumnName="eventStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JEventStatus">
+            <EntityTypeMapping TypeName="Jira_DatabaseModel.JEventStatu">
+              <MappingFragment StoreEntitySet="JEventStatus">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="eventStatus" ColumnName="eventStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JEventTypes">
+            <EntityTypeMapping TypeName="Jira_DatabaseModel.JEventType">
+              <MappingFragment StoreEntitySet="JEventType">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="eventType" ColumnName="eventType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JProjects">
+            <EntityTypeMapping TypeName="Jira_DatabaseModel.JProject">
+              <MappingFragment StoreEntitySet="JProject">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="teamId" ColumnName="teamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JTeams">
+            <EntityTypeMapping TypeName="Jira_DatabaseModel.JTeam">
+              <MappingFragment StoreEntitySet="JTeam">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JTeamUsers">
+            <EntityTypeMapping TypeName="Jira_DatabaseModel.JTeamUser">
+              <MappingFragment StoreEntitySet="JTeamUsers">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="teamId" ColumnName="teamId" />
+                <ScalarProperty Name="isLead" ColumnName="isLead" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JUsers">
+            <EntityTypeMapping TypeName="Jira_DatabaseModel.JUser">
+              <MappingFragment StoreEntitySet="JUser">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JUserTypes">
+            <EntityTypeMapping TypeName="Jira_DatabaseModel.JUserType">
+              <MappingFragment StoreEntitySet="JUserType">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+                <ScalarProperty Name="addTeam" ColumnName="addTeam" />
+                <ScalarProperty Name="addSprint" ColumnName="addSprint" />
+                <ScalarProperty Name="addUser" ColumnName="addUser" />
+                <ScalarProperty Name="addEvent" ColumnName="addEvent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="JEventProjects" TypeName="Jira_DatabaseModel.JEventProjects" StoreEntitySet="JEventProjects">
+            <EndProperty Name="JEvent">
+              <ScalarProperty Name="id" ColumnName="eventId" />
+            </EndProperty>
+            <EndProperty Name="JProject">
+              <ScalarProperty Name="id" ColumnName="projectId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,7 +1,6 @@
 ﻿using DevExpress.XtraBars;
-using JiraApplication.ViewModels;
+using BusinessLogic.ViewModels;
 using System;
-using System.Linq;
 
 
 namespace JiraApplication.Views
@@ -38,7 +37,7 @@ namespace JiraApplication.Views
         void InitializeBindings()
         {
             var fluent = mvvmContext.OfType<MainBlankViewModel>();
-            fluent.BindCommand(btnClose, x => x.ClosePage);
+            //fluent.BindCommand(btnClose, x => x.ClosePage);
         }
 
         private void btnNew_Click_1(object sender, EventArgs e)

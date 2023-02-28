@@ -1,14 +1,6 @@
-﻿using DevExpress.XtraEditors;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Forms;
-using JiraApplication.ViewModels;
+using BusinessLogic.ViewModels;
 
 
 namespace JiraApplication.Views
@@ -55,6 +47,11 @@ namespace JiraApplication.Views
 
         }
 
+        private void textEdit2_EditValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
         //private void InitializeComponent()
         //{
         //    this.SuspendLayout();
@@ -68,6 +65,7 @@ namespace JiraApplication.Views
         //    this.ResumeLayout(false);
 
         //}
+
     }
 }
 

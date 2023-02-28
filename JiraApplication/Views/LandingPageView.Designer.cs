@@ -1,4 +1,5 @@
-﻿namespace JiraApplication.Views
+﻿using BusinessLogic.ViewModels;
+namespace JiraApplication.Views
 {
     partial class LandingPageView
     {
@@ -53,7 +54,7 @@
             // mvvmContext
             // 
             this.mvvmContext.ContainerControl = this;
-            this.mvvmContext.ViewModelType = typeof(JiraApplication.ViewModels.LandingPageViewModel);
+            this.mvvmContext.ViewModelType = typeof(LandingPageViewModel);
             // 
             // LandingPageView
             // 

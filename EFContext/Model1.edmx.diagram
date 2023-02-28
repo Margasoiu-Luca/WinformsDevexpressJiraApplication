@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f7325eb7259c4d9d8af80a30bb55a72d" Name="Diagram1">
+        <EntityTypeShape EntityType="Jira_DatabaseModel.JComment" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jira_DatabaseModel.JEvent" Width="1.5" PointX="8.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jira_DatabaseModel.JEventStatu" Width="1.5" PointX="6" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jira_DatabaseModel.JEventType" Width="1.5" PointX="6" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jira_DatabaseModel.JProject" Width="1.5" PointX="10.5" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jira_DatabaseModel.JTeam" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jira_DatabaseModel.JTeamUser" Width="1.5" PointX="5.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jira_DatabaseModel.JUser" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Jira_DatabaseModel.JUserType" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="Jira_DatabaseModel.FK_EventIdComment" ManuallyRouted="false" />
+        <AssociationConnector Association="Jira_DatabaseModel.FK_ParentIdComment" ManuallyRouted="false" />
+        <AssociationConnector Association="Jira_DatabaseModel.FK_UserIdComment" ManuallyRouted="false" />
+        <AssociationConnector Association="Jira_DatabaseModel.FK_EventStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="Jira_DatabaseModel.FK_EventType" ManuallyRouted="false" />
+        <AssociationConnector Association="Jira_DatabaseModel.FK_ParentEvent" ManuallyRouted="false" />
+        <AssociationConnector Association="Jira_DatabaseModel.FK_UserIdEvent" ManuallyRouted="false" />
+        <AssociationConnector Association="Jira_DatabaseModel.FK_TeamIdProject" ManuallyRouted="false" />
+        <AssociationConnector Association="Jira_DatabaseModel.FK_TeamIdTeamUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="Jira_DatabaseModel.FK_UserIdTeamUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="Jira_DatabaseModel.User_type" ManuallyRouted="false" />
+        <AssociationConnector Association="Jira_DatabaseModel.JEventProjects" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,9 +1,4 @@
-﻿using DevExpress.LookAndFeel;
-using DevExpress.Skins;
-using DevExpress.UserSkins;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Windows.Forms;
 using JiraApplication.Views;
 
@@ -17,6 +12,7 @@ namespace JiraApplication
         [STAThread]
         static void Main()
         {
+            //IKernel kernel
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainView());

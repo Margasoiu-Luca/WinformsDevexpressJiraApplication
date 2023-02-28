@@ -1,16 +1,7 @@
-﻿using DevExpress.XtraEditors;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using JiraApplication.ViewModels;
+﻿using System.Windows.Forms;
+using BusinessLogic.ViewModels;
+using DevExpress.XtraBars;
 using DevExpress.Utils.MVVM.Services;
-using DevExpress.XtraBars.Navigation;
 
 namespace JiraApplication.Views
 {
@@ -44,7 +35,32 @@ namespace JiraApplication.Views
                 var fluent = mvvmContext.OfType<AppNavViewModel>();
                 // Bind the Title property to the Text
                 fluent.SetBinding(this, view => view.Text, x => x.Title);
+                fluent.SetBinding(mainMenu, p => p.Visible, x => x.IsLoginpage);
+                fluent.SetBinding(btnClose, p => p.Visible, x => x.IsLoginpage);
+                fluent.BindCommand(btnClose, x => x.ClosePage);
+                object parameter = 5;
+                for (int i=0; i < this.mainMenuManager.Items.Count-1;i++)
+                {
+                    if (mainMenuManager.Items[i].GetType().Name== "BarButtonItem" && !(mainMenuManager.Items[i] is BarSubItem))
+                    {
+                        object temp = mainMenuManager.Items[i].Caption;
+                        fluent.WithEvent<MouseEventArgs>(mainMenuManager.Items[i] as BarButtonItem, "ItemClick")
+                            .EventToCommand(x => x.NavigateToDestination,args => temp,null);
+
+                    }
+                }
             }
+        }
+
+
+        class Parameters
+        {
+            public string Parameter1 { get; set; }
+}
+
+        private void barButtonItem13_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
         }
     }
 }
