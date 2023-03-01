@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogic.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1.Services
 {
-    internal class EventService
+    internal class EventService : BaseService
     {
+        protected EventService(string url) : base(url)
+        {
+        }
     }
 }

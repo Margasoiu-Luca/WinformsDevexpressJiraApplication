@@ -14,11 +14,11 @@ namespace BusinessLogic.Services
         private protected string restOfUri;
         protected BaseService(string url)
         {
-            restOfUri = url.Remove(;
-            url=
+            string[] splitURL = url.Split(new[] { "/api/" }, StringSplitOptions.RemoveEmptyEntries);
+            restOfUri = splitURL[1];
             HttpClientHandler insecureHandler = GetInsecureHandler();
             _httpClient = new HttpClient(insecureHandler);
-            _httpClient.BaseAddress = new Uri($"{url}/api");
+            _httpClient.BaseAddress = new Uri($"{splitURL[0]}/api/");
         }
 
 
@@ -32,11 +32,6 @@ namespace BusinessLogic.Services
                 return errors == System.Net.Security.SslPolicyErrors.None;
             };
             return handler;
-        }
-        private Tuple<string,string> splitURL(string url)
-        {
-            return Tuple.Create(url, url);
-
         }
     }
 }

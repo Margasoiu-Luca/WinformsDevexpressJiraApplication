@@ -20,7 +20,7 @@ namespace BusinessLogic.Services
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsync("/api/users/login", new StringContent(JsonSerializer.Serialize(new User(username, password)),Encoding.UTF8,"application/json"));
+                HttpResponseMessage response = await _httpClient.PostAsync($"/{restOfUri}/login", new StringContent(JsonSerializer.Serialize(new User(username, password)),Encoding.UTF8,"application/json"));
                 var responseAsString = await response?.Content?.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {

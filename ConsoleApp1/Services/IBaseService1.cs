@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogic.Models
+namespace ConsoleApp1.Services
 {
-    internal class Event:BaseModel<Event>
+    internal interface IBaseService1
     {
     }
 }
