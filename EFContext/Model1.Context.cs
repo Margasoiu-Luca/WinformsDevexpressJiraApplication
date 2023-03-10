@@ -17,6 +17,7 @@ namespace EFContext.Models
         public Jira_DatabaseEntities1()
             : base("name=Jira_DatabaseEntities1")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

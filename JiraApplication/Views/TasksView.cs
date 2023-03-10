@@ -1,60 +1,55 @@
-﻿using DevExpress.XtraBars;
+﻿using BusinessLogic.ViewModels;
+using BusinessLogic.Models;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Views.Grid;
 
 namespace JiraApplication.Views
 {
-    public partial class TasksView : DevExpress.XtraEditors.XtraUserControl
+    public partial class TasksView : JiraApplication.Views.AllView
     {
         public TasksView()
         {
-            InitializeComponent();
 
-            BindingList<Customer> dataSource = GetDataSource();
-            gridControl.DataSource = dataSource;
-            bsiRecordsCount.Caption = "RECORDS : " + dataSource.Count;
+            InitializeComponent(); 
+            if (!DesignMode)
+                InitializeBindings();
         }
-        void bbiPrintPreview_ItemClick(object sender, ItemClickEventArgs e)
+        void InitializeBindings()
         {
-            gridControl.ShowRibbonPrintPreview();
+            var fluent = mvvmContext.OfType<TasksViewModel>();
+            fluent.WithEvent(bbiRefresh, "ItemClick").EventToCommand(x => x.GetData);
+            fluent.SetBinding(gridControl, gControl => gControl.DataSource, x => x.Events);
+            fluent.WithEvent(bbiDelete, "ItemClick").EventToCommand(x=>x.Delete);
+            fluent.WithEvent(bbiEdit, "ItemClick").EventToCommand(x => x.GoToIndividualMember);
+            fluent.WithEvent<ColumnView, FocusedRowObjectChangedEventArgs>(gridView, "FocusedRowObjectChanged")
+            .SetBinding(x => x.SelectedEvent,
+                args => args.Row as Event,
+                (gView, entity) => gView.FocusedRowHandle = gView.FindRow(entity));
+            // We want to proceed the Edit command when row double-clicked
+            //fluent.WithEvent<RowClickEventArgs>(gridView, "RowClick")
+            //    .EventToCommand(
+            //        x => x.Edit, x => x.SelectedEvent,
+            //        args => (args.Clicks == 2) && (args.Button == MouseButtons.Left));
         }
-        public BindingList<Customer> GetDataSource()
+
+    }
+    public class MyRecord
+    {
+        public int ID { get; set; }
+        public string Country { get; set; }
+        public string Name { get; set; }
+        public MyRecord(int id, string name, string country)
         {
-            BindingList<Customer> result = new BindingList<Customer>();
-            result.Add(new Customer()
-            {
-                ID = 1,
-                Name = "ACME",
-                Address = "2525 E El Segundo Blvd",
-                City = "El Segundo",
-                State = "CA",
-                ZipCode = "90245",
-                Phone = "(310) 536-0611"
-            });
-            result.Add(new Customer()
-            {
-                ID = 2,
-                Name = "Electronics Depot",
-                Address = "2455 Paces Ferry Road NW",
-                City = "Atlanta",
-                State = "GA",
-                ZipCode = "30339",
-                Phone = "(800) 595-3232"
-            });
-            return result;
-        }
-        public class Customer
-        {
-            [Key, Display(AutoGenerateField = false)]
-            public int ID { get; set; }
-            [Required]
-            public string Name { get; set; }
-            public string Address { get; set; }
-            public string City { get; set; }
-            public string State { get; set; }
-            [Display(Name = "Zip Code")]
-            public string ZipCode { get; set; }
-            public string Phone { get; set; }
+            ID = id;
+            Name = name;
+            Country = country;
         }
     }
 }

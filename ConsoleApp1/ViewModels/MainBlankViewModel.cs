@@ -5,16 +5,16 @@ using System;
 namespace BusinessLogic.ViewModels
 {
     [POCOViewModel]
-    public class MainBlankViewModel
+    public class MainBlankViewModel:BaseViewModel
     {
-        protected INavigationService NavigationService
-        {
-            get { return this.GetService<INavigationService>(); }
-        }
         public void ClosePage()
         {
             var document = NavigationService.Current as IDocument;
             NavigationService.GoBack();
+        }
+        public MainBlankViewModel()
+        {
+
         }
     }
 }

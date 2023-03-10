@@ -8,9 +8,9 @@ namespace BusinessLogic.ViewModels
     public class MainViewModel
     {
 
-        // This is ViewModel for our Application
         public MainViewModel()
         {
+
             Title = "JiraApplication";
         }
         public string Title

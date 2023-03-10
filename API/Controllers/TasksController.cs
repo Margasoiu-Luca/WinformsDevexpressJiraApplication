@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web.UI;
 using System.Data.Entity.Validation;
 using API.Infrastructure;
+using Newtonsoft.Json;
 
 namespace API.Controllers
 {
@@ -49,8 +50,8 @@ namespace API.Controllers
             if (jevent == null) return Request.CreateResponse(HttpStatusCode.BadRequest, $"status:Invalid JSON sent");
             try
             {
-                await eventRepository.Create(jevent);
-                return Request.CreateResponse(HttpStatusCode.OK, "status:worked");
+                var x =await eventRepository.Create(jevent);
+                return Request.CreateResponse(HttpStatusCode.OK,x);
             }
             catch(DbEntityValidationException ex) 
             {

@@ -5,28 +5,23 @@ using System;
 using System.Threading.Tasks;
 using BusinessLogic.Services;
 using BusinessLogic.Models;
+using BusinessLogic.Localdata;
 
 namespace BusinessLogic.ViewModels
 {
     [POCOViewModel]
-    public class LoginViewModel
+    public class LoginViewModel:BaseViewModel
     {
-        private readonly UserService userService = new UserService("https://localhost:44394/api/users/");
-
+        protected INavigationService NavigationService
+        {
+            get { return this.GetService<INavigationService>(); }
+        }
         public LoginViewModel()
         {
             _user = new User();
         }
 
 
-        protected IMessageBoxService MessageBoxService
-        {
-            get { return this.GetService<IMessageBoxService>(); }
-        }
-        protected INavigationService NavigationService
-        {
-            get { return this.GetService<INavigationService>(); }
-        }
 
         private User _user { get; set; }
 
@@ -76,14 +71,19 @@ namespace BusinessLogic.ViewModels
             try
             {
 
-                User userFoundInDatabase = await userService.Login(Username, Password);
+                User userFoundInDatabase = (await UserService.Login(new User(Username, Password))).getDbElement();
                 if (userFoundInDatabase is null)
                 {
 
                     MessageBoxService.ShowMessage("Incorrect Login");
                 }
                 else
+                {
+                    CurrentUserRepository.Delete();
+                    CurrentUserRepository.Set(userFoundInDatabase);
                     NavigateToMainPage();
+                }
+
             }
             catch
             {

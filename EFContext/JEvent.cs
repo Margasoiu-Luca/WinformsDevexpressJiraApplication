@@ -49,9 +49,7 @@ namespace EFContext.Models
 
         public object Clone()
         {
-            var x = this;
-            x.name = "test";
-            return x;
+            return this;
         }
     }
 }

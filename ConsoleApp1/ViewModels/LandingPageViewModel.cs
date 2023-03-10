@@ -5,12 +5,8 @@ using System;
 namespace BusinessLogic.ViewModels
 {
     [POCOViewModel]
-    public class LandingPageViewModel
+    public class LandingPageViewModel:BaseViewModel
     {
-        protected IMessageBoxService MessageBoxService
-        {
-            get { return this.GetService<IMessageBoxService>(); }
-        }
         protected INavigationService NavigationService
         {
             get { return this.GetService<INavigationService>(); }

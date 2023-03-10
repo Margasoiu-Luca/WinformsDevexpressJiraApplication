@@ -1,6 +1,6 @@
 ﻿namespace BusinessLogic.Models
 {
-    internal class User:BaseModel<User>
+    public class User:BaseModel<User>
     {
         public string username { get; set; }
         public string password { get; set; }

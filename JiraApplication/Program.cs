@@ -12,7 +12,6 @@ namespace JiraApplication
         [STAThread]
         static void Main()
         {
-            //IKernel kernel
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainView());

@@ -40,7 +40,6 @@ namespace JiraApplication.Views
             this.barSubItem9 = new DevExpress.XtraBars.BarSubItem();
             this.barButtonItem15 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem18 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem17 = new DevExpress.XtraBars.BarButtonItem();
             this.barSubItem5 = new DevExpress.XtraBars.BarSubItem();
             this.barButtonItem11 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem12 = new DevExpress.XtraBars.BarButtonItem();
@@ -64,6 +63,7 @@ namespace JiraApplication.Views
             this.barButtonItem13 = new DevExpress.XtraBars.BarButtonItem();
             this.barSubItem6 = new DevExpress.XtraBars.BarSubItem();
             this.barButtonItem14 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem17 = new DevExpress.XtraBars.BarButtonItem();
             this.bar1 = new DevExpress.XtraBars.Bar();
             this.bar4 = new DevExpress.XtraBars.Bar();
             this.btnClose = new DevExpress.XtraEditors.SimpleButton();
@@ -90,7 +90,7 @@ namespace JiraApplication.Views
             // mvvmContext
             // 
             this.mvvmContext.ContainerControl = this;
-            this.mvvmContext.ViewModelType = typeof(AppNavViewModel);
+            this.mvvmContext.ViewModelType = typeof(BusinessLogic.ViewModels.AppNavViewModel);
             // 
             // mainMenuManager
             // 
@@ -146,7 +146,7 @@ namespace JiraApplication.Views
             this.mainMenu.OptionsBar.MultiLine = true;
             this.mainMenu.OptionsBar.UseWholeRow = true;
             this.mainMenu.Text = "Main menu";
-            this.mainMenu.Visible= false;
+            this.mainMenu.Visible = false;
             // 
             // barSubItem1
             // 
@@ -182,12 +182,6 @@ namespace JiraApplication.Views
             this.barButtonItem18.Caption = "Add Task";
             this.barButtonItem18.Id = 27;
             this.barButtonItem18.Name = "barButtonItem18";
-            // 
-            // barButtonItem17
-            // 
-            this.barButtonItem17.Caption = "Add Task";
-            this.barButtonItem17.Id = 26;
-            this.barButtonItem17.Name = "barButtonItem17";
             // 
             // barSubItem5
             // 
@@ -356,6 +350,12 @@ namespace JiraApplication.Views
             this.barButtonItem14.Id = 22;
             this.barButtonItem14.Name = "barButtonItem14";
             // 
+            // barButtonItem17
+            // 
+            this.barButtonItem17.Caption = "Add Task";
+            this.barButtonItem17.Id = 26;
+            this.barButtonItem17.Name = "barButtonItem17";
+            // 
             // bar1
             // 
             this.bar1.BarName = "Main menu";
@@ -392,12 +392,12 @@ namespace JiraApplication.Views
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnClose.ImageOptions.SvgImage")));
             this.btnClose.ImageOptions.SvgImageSize = new System.Drawing.Size(20, 20);
-            this.btnClose.Location = new System.Drawing.Point(1293, -9);
+            this.btnClose.Location = new System.Drawing.Point(1293, 0);
             this.btnClose.Margin = new System.Windows.Forms.Padding(0);
             this.btnClose.Name = "btnClose";
             this.btnClose.PaintStyle = DevExpress.XtraEditors.Controls.PaintStyles.Light;
             this.btnClose.ShowFocusRectangle = DevExpress.Utils.DefaultBoolean.False;
-            this.btnClose.Size = new System.Drawing.Size(29, 41);
+            this.btnClose.Size = new System.Drawing.Size(29, 20);
             this.btnClose.TabIndex = 10;
             this.btnClose.Visible = false;
             // 

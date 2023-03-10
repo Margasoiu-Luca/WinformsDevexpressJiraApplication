@@ -4,15 +4,21 @@ using DevExpress.Mvvm.POCO;
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using BusinessLogic.Localdata;
+using BusinessLogic.Services;
 
 namespace BusinessLogic.ViewModels
 {
     [POCOViewModel]
-    public class AppNavViewModel
+    public class AppNavViewModel:BaseViewModel
     {
-        // This is ViewModel for our Application
         public AppNavViewModel()
         {
+
+            ServiceContainer.Default.RegisterService(new InMemmoryUser());
+            ServiceContainer.Default.RegisterService(new InMemmoryTask());
+            ServiceContainer.Default.RegisterService(new UserService("https://localhost:44394/api/users/"));
+            ServiceContainer.Default.RegisterService(new EventService("https://localhost:44394/api/tasks/"));
             Title = "JiraApplica1tion";
             _isLoginPage = false;
         }
@@ -37,6 +43,11 @@ namespace BusinessLogic.ViewModels
             }
 
         }
+        private IDocument getCurrentDocument()
+        {
+            return (NavigationService.Current as IDocument);
+        }
+
         protected INavigationService NavigationService
         {
             get { return this.GetService<INavigationService>(); }
@@ -56,9 +67,9 @@ namespace BusinessLogic.ViewModels
         {
             try
             {
+                getCurrentDocument().Close();
                 NavigationService.GoBack();
-                var document = (NavigationService.Current as IDocument).Content.GetParentViewModel<AppNavViewModel>();
-                document.IsLoginpage = false;
+                var document = getCurrentDocument().Content.GetParentViewModel<AppNavViewModel>();
                 if (document is AppNavViewModel)
                 {
                 }
@@ -71,6 +82,7 @@ namespace BusinessLogic.ViewModels
         }
         public void NavigateToDestination(object Destination)
         {
+
             Destination = $"{Regex.Replace(Destination as string, @"\s+", "")}View";
             NavigationService.Navigate(Destination as string, null, this, true);
 

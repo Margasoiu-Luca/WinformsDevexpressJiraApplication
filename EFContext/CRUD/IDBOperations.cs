@@ -12,7 +12,7 @@ namespace EFContext.CRUD
 
     public interface IDBOperations<T,ID>
     {
-        Task Create(T item);
+        Task<T> Create(T item);
 
         Task<T> GetOne(ID ItemId);
 

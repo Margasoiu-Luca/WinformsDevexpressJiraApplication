@@ -11,7 +11,7 @@ namespace EFContext.CRUD
     {
         private static readonly Jira_DatabaseEntities1 dbContext = new Jira_DatabaseEntities1();
 
-        public Task Create(JUser item)
+        public Task<JUser> Create(JUser item)
         {
             throw new NotImplementedException();
         }

@@ -275,6 +275,7 @@ namespace JiraApplication.Views
             // mvvmContext
             // 
             this.mvvmContext.ContainerControl = this;
+            this.mvvmContext.ViewModelType = typeof(BusinessLogic.ViewModels.MainBlankViewModel);
             // 
             // bar1
             // 
